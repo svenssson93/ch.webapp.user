@@ -8,6 +8,7 @@ const config = {
 
   // Users API
   backendApiUriUsers: '/api/users',
+  backendApiUriUsersProfile: '/api/profile/users',
 
   // Repository information
   repository: 'https://github.com/svenssson93/ch.webapp.user.git',

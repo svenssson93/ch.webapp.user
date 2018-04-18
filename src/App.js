@@ -14,15 +14,36 @@ class App extends Component {
     this.state = {
       users: [],
     }
+
+    this._fetchUserData = this._fetchUserData.bind(this);
   }
 
   componentWillMount() {
+    console.log('Fetching user-profile structure...');
+    fetch(config.backendBase + config.backendApiUriUsersProfile).then((resp) => {
+      resp.json().then((json) => {
+        let keys = json.alps.descriptors[0].descriptors.map((descr) => {
+          return descr.name;
+        })
+
+        if (keys.includes('id') && keys.includes('name') && keys.includes('email') && keys.includes('nickname')) {
+          console.log('User-profile structure confirmed.');
+          this._fetchUserData();
+        } else {
+          console.error('User-profile does not match expected structure. Expecting:\n { id, name, email, nickname }');
+        }
+      })
+    });
+  }
+
+  _fetchUserData() {
     console.log('Fetching data from backend...');
     fetch(config.backendBase + config.backendApiUriUsers).then((resp) => {
       resp.json().then((json) => {
-        console.log(json);
+        console.log('Received data. Adding it to state-variable');
+        let users = json['_embedded']['users'];
         this.setState({
-          users: json['_embedded']['users'],
+          users: users,
         })
       });
     });
