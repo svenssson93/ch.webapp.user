@@ -28,9 +28,15 @@ class App extends Component {
 
         if (keys.includes('id') && keys.includes('name') && keys.includes('email') && keys.includes('nickname')) {
           console.log('User-profile structure confirmed.');
+          this.setState({
+            dataStructure: true,
+          });
           this._fetchUserData();
         } else {
           console.error('User-profile does not match expected structure. Expecting:\n { id, name, email, nickname }');
+          this.setState({
+            dataStructure: false,
+          });
         }
       })
     });
@@ -50,6 +56,10 @@ class App extends Component {
   }
 
   render() {
+    let error;
+    if (!this.state.dataStructure) {
+      error = <p>The expected data-structure was not provided. Please update it to use this application.</p>;
+    }
     return (
       <div className="App">
         <header className="App-header">
@@ -58,6 +68,7 @@ class App extends Component {
         </header>
         <MuiThemeProvider>
           <Paper>
+            {error}
             <Table className="tblUsers">
               <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
