@@ -1,0 +1,19 @@
+{
+  "name": "ch.webapp.user",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svenssson93/ch.webapp.user.git"
+  },
+  "author": "Sven Indelicato",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/svenssson93/ch.webapp.user/issues"
+  },
+  "homepage": "https://github.com/svenssson93/ch.webapp.user#readme"
+}
