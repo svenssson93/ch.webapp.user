@@ -16,6 +16,7 @@ class App extends Component {
     }
 
     this._fetchUserData = this._fetchUserData.bind(this);
+    this._getTableRowMarkup = this._getTableRowMarkup.bind(this);
   }
 
   componentWillMount() {
@@ -33,10 +34,11 @@ class App extends Component {
           });
           this._fetchUserData();
         } else {
-          console.error('User-profile does not match expected structure. Expecting:\n { id, name, email, nickname }');
+          console.error('User-profile does not match expected structure.\nExpecting:\tid,name,email,nickname\nReceived:\t' + keys);
           this.setState({
             dataStructure: false,
           });
+          this._fetchUserData();
         }
       })
     });
@@ -55,10 +57,35 @@ class App extends Component {
     });
   }
 
+  _getTableRowMarkup(user) {
+    let markup, rows = [];
+    delete user._links;
+    for (const [key, value] of Object.entries(user)) {
+      switch (key) {
+        case 'id':
+        case 'name':
+        case 'email':
+        case 'nickname':
+          rows.push(<TableRowColumn key={key}>{value}</TableRowColumn>);
+          break;
+        default:
+          rows.push(<TableRowColumn key={key} className="noData">no data</TableRowColumn>);
+      }
+    }
+
+    if (user['id']) {
+      markup = (<TableRow key={user['id']}>{rows}</TableRow>);
+    } else {
+      markup = (<TableRow>{rows}</TableRow>);
+    }
+
+    return markup;
+  }
+
   render() {
     let error;
     if (!this.state.dataStructure) {
-      error = <p>The expected data-structure was not provided. Please update it to use this application.</p>;
+      error = <p>The expected data-structure was not provided. Please update it to see full data.</p>;
     }
     return (
       <div className="App">
@@ -80,14 +107,7 @@ class App extends Component {
               </TableHeader>
               <TableBody id="tblUser" displayRowCheckbox={false}>
                 {this.state.users.map((user) => {
-                  return(
-                    <TableRow key={user['id']}>
-                      <TableRowColumn>{user['id']}</TableRowColumn>
-                      <TableRowColumn>{user['name']}</TableRowColumn>
-                      <TableRowColumn>{user['email']}</TableRowColumn>
-                      <TableRowColumn>{user['nickname']}</TableRowColumn>
-                    </TableRow>
-                  );
+                  return this._getTableRowMarkup(user);
                 })}
               </TableBody>
             </Table>
