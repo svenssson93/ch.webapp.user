@@ -49,7 +49,7 @@ class App extends Component {
     fetch(config.backendBase + config.backendApiUriUsers).then((resp) => {
       resp.json().then((json) => {
         console.log('Received data. Adding it to state-variable');
-        let users = json['_embedded']['users'];
+        let users = json['_embedded'][Object.keys(json['_embedded'])[0]];
         this.setState({
           users: users,
         })
