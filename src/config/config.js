@@ -7,8 +7,8 @@ const config = {
   backendBase: 'http://localhost:8080',
 
   // Users API
-  backendApiUriUsers: '/api/users',
-  backendApiUriUsersProfile: '/api/profile/users',
+  backendApiUriUsers: '/api/usersExtended',
+  backendApiUriUsersProfile: '/api/profile/usersExtended',
 
   // Repository information
   repository: 'https://github.com/svenssson93/ch.webapp.user.git',
